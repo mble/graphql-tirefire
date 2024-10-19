@@ -15,7 +15,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --metafile=dist/index.js.meta.json",
     "lint": "eslint .",
     "start": "node dist/index.js",
-    "test": "jest"
+    "test": "jest --silent"
   },
   "dependencies": {
     "@escape.tech/graphql-armor-cost-limit": "^2.3.0",
@@ -27,6 +27,7 @@
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.9",
     "body-parser": "^1.20.3",
+    "esbuild-jest": "^0.5.0",
     "express": "^4.21.1",
     "graphql": "^16.9.0",
     "graphql-http": "^1.22.1",
