@@ -1,15 +1,28 @@
 {
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.13",
     "@types/supertest": "^6.0.2",
+    "esbuild": "0.24.0",
+    "eslint": "^9.13.0",
     "jest": "^29.7.0",
     "supertest": "^7.0.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --metafile=dist/index.js.meta.json",
+    "lint": "eslint .",
+    "start": "node dist/index.js",
+    "test": "jest"
   },
   "dependencies": {
     "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
     "express": "^4.21.1",
     "graphql": "^16.9.0",
-    "graphql-http": "^1.22.1"
+    "graphql-http": "^1.22.1",
+    "morgan": "^1.10.0"
   }
 }
