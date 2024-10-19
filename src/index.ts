@@ -13,17 +13,18 @@ import { maxDepthRule } from "@escape.tech/graphql-armor-max-depth";
 import { costLimitRule } from "@escape.tech/graphql-armor-cost-limit";
 import { schema } from "./schema";
 import { limitFieldsRule } from "./rules";
+import { config } from "./config";
 
 const app = express();
 
 const handler = createHandler({
   schema,
-  parse: (query) => parse(query, { maxTokens: 1000 }),
+  parse: (query) => parse(query, { maxTokens: config.graphqlMaxTokens }),
   validationRules: [
     ...specifiedRules,
     NoSchemaIntrospectionCustomRule,
     limitFieldsRule({
-      n: 2,
+      n: config.graphqlMaxDuplicateFields,
       exposeLimits: false,
     }),
     maxDepthRule({
@@ -33,11 +34,11 @@ const handler = createHandler({
       exposeLimits: false,
     }),
     maxDirectivesRule({
-      n: 5,
+      n: config.graphqlMaxDirectives,
       exposeLimits: false,
     }),
     maxAliasesRule({
-      n: 5,
+      n: config.graphqlMaxAliases,
       exposeLimits: false,
     }),
   ],
@@ -47,4 +48,6 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "64kb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "64kb" }));
 app.post("/graphql", handler);
-app.listen(3000, () => console.log("Server running on port 3000"));
+app.listen(config.port, () =>
+  console.log(`Server running on port ${config.port}`)
+);
