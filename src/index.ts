@@ -2,6 +2,7 @@ import express from "express"
 import morgan from "morgan"
 import { createHandler } from "graphql-http/lib/use/express"
 import { schema } from "./schema"
+import bodyParser from "body-parser"
 
 const root = {
     hello: () => "Hello, world!"
@@ -10,5 +11,7 @@ const root = {
 const app = express()
 
 app.use(morgan("common"))
+app.use(bodyParser.json({ limit: "64kb" }))
+app.use(bodyParser.urlencoded({ extended: true, limit: "64kb" }))
 app.use("/graphql", createHandler({ schema, rootValue: root }))
 app.listen(3000, () => console.log("Server running on port 3000"))
