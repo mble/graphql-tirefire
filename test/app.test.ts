@@ -48,4 +48,19 @@ describe("app", () => {
     expect(response.body.errors).toHaveLength(1);
     expect(response.body.errors[0].message).toMatch(/Query validation error/);
   });
+
+  it("should return a 400 when exceeding the depth limit", async () => {
+    const response = await request(app).post("/graphql").send({
+      query:
+        "{ a { a { a { a { a { a { a { a { a { a { a } } } } } } } } } } }",
+    });
+    expect(response.status).toBe(400);
+    expect(response.body.errors).toHaveLength(1);
+    expect(response.body.errors[0].message).toMatch(/Query validation error/);
+  });
+
+  it("does not support get requests", async () => {
+    const response = await request(app).get("/graphql");
+    expect(response.status).toBe(404);
+  });
 });
